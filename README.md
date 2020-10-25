@@ -24,7 +24,7 @@ A [Game of Life](http://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) simulator
 </p>
 
 ## 3. Config
-You can config the number of rows, columns and initial cells editing ```bash-of-life``` file and setting ```num_rows```, ```num_cols``` and ```num_cells```
+You can configure the number of rows, columns and initial cells editing ```bash-of-life``` file and setting ```num_rows```, ```num_cols``` and ```num_cells```
 ```
 #!/usr/bin/env bash
 
