@@ -27,10 +27,12 @@ A [Game of Life](http://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) simulator
 You can config the number of rows, columns and initial cells editing ```bash-of-life.sh``` file and setting ```num_rows```, ```num_cols``` and ```num_cells```
 ```
 #!/usr/bin/env bash
+
 #===============================================================================
 #  GLOBAL VARIABLES
 #===============================================================================
 num_rows=20
 num_cols=40
 num_cells=200
+
 ```
