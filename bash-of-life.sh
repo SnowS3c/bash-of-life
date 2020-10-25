@@ -1,0 +1,133 @@
+#!/usr/bin/env bash
+#===============================================================================
+# CONWAY'S GAME OF LIFE
+#
+#   RULES:  Any live cell with fewer than two live neighbours dies, as if by underpopulation.
+#           Any live cell with two or three live neighbours lives on to the next generation.
+#           Any live cell with more than three live neighbours dies, as if by overpopulation.
+#           Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
+#
+#===============================================================================
+
+
+#===============================================================================
+#  GLOBAL VARIABLES
+#===============================================================================
+declare -A matrix
+num_rows=20
+num_cols=40
+num_cells=200
+
+
+trap trap_ctrlc 2
+
+trap_ctrlc () {
+    echo -e "\nCrtl+C pressed. Closing program"
+    exit 2
+}
+
+
+
+#=== FUNCTION ==================================================================
+#        NAME: initialize_matrix
+# DESCRIPTION: create the matrix and set the live cells
+#===============================================================================
+function initialize_matrix() {
+
+    # First set all cells values to 0
+    for ((i=1;i<=num_rows;i++)) do
+        for ((j=1;j<=num_cols;j++)) do
+            matrix[$i,$j]=0
+        done
+    done
+
+    # Select the live cells
+    i=1
+    while [ $i -le $num_cells ]
+    do
+        r=$(( RANDOM % $num_rows + 1 ))
+        c=$(( RANDOM % $num_cols + 1 ))
+        [ "${matrix[$r,$c]}" -ne 1 ] && matrix[$r,$c]=1 && ((i++))
+    done
+
+}
+
+
+
+#=== FUNCTION ==================================================================
+#        NAME: print_screen
+# DESCRIPTION: draw the matrix
+#===============================================================================
+function print_screen() {
+    clear
+    for ((i=1;i<=num_rows;i++)) do
+        for ((j=1;j<=num_cols;j++)) do
+            [ "${matrix[$i,$j]}" -eq 1 ] && echo -n "█" || echo -n " "
+        done
+        echo
+    done
+}
+
+
+
+#=== FUNCTION ==================================================================
+#        NAME: update_state
+# DESCRIPTION: update the state of each cells
+#===============================================================================
+function update_state() {
+
+    # Copy the matrix
+    declare -A new_matrix
+    for key in "${!matrix[@]}"; do
+        new_matrix[$key]=${matrix[$key]}
+    done
+
+
+    # Check the how many neighbours has each cell in the new matrix
+    for ((i=1;i<=num_rows;i++)) do
+        for ((j=1;j<=num_cols;j++)) do
+
+            neighbour=0
+            for ((x=$((i-1));x<=$((i+1));x++)) do
+                for ((y=$((j-1));y<=$((j+1));y++)) do
+
+                    # Find which neighbour is alive
+                    if [ -n "${new_matrix[$x,$y]}" ] && [ "${new_matrix[$x,$y]}" -eq 1 ]; then
+                        if [ "$x" -eq "$i" ] && [ "$y" -eq "$j" ]; then
+                            # Skip the current cell
+                            continue
+                        fi
+                        ((neighbour++))
+                    fi
+                done
+            done
+
+            # Update the next state of the cell
+            # If the cell is alive
+            if [ ${matrix[$i,$j]} -eq 1 ]; then
+                if [ $neighbour -lt 2 ]; then
+                    matrix[$i,$j]=0
+                elif [ $neighbour -gt 3 ]; then
+                    matrix[$i,$j]=0
+                fi
+
+            else
+                # If the cell is dead
+                if [ $neighbour -eq 3 ]; then
+                    matrix[$i,$j]=1
+                fi
+            fi
+
+        done
+    done
+
+}
+
+
+initialize_matrix
+print_screen
+while true; do
+    update_state
+    print_screen
+    sleep .01
+done
