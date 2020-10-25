@@ -1,4 +1,4 @@
-# Game Of Life
+# Bash Of Life
 
 ## Description
 
