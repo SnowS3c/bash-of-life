@@ -14,9 +14,9 @@
 #===============================================================================
 #  GLOBAL VARIABLES
 #===============================================================================
-num_rows=20
-num_cols=40
-num_cells=200
+readonly num_rows=20
+readonly num_cols=40
+readonly num_cells=200
 declare -A matrix
 
 
@@ -95,11 +95,10 @@ function update_state() {
 
                     # Find which neighbour is alive
                     if [ -n "${new_matrix[$x,$y]}" ] && [ "${new_matrix[$x,$y]}" -eq 1 ]; then
-                        if [ "$x" -eq "$i" ] && [ "$y" -eq "$j" ]; then
-                            # Skip the current cell
-                            continue
+                        # Skip the current cell
+                        if ! [ "$x" -eq "$i" -a "$y" -eq "$j" ]; then
+                            ((neighbours++))
                         fi
-                        ((neighbours++))
                     fi
                 done
             done
