@@ -47,8 +47,8 @@ function initialize_matrix() {
     i=1
     while [ $i -le $num_cells ]
     do
-        r=$(( RANDOM % $num_rows + 1 ))
-        c=$(( RANDOM % $num_cols + 1 ))
+        r=$(( RANDOM % num_rows + 1 ))
+        c=$(( RANDOM % num_cols + 1 ))
         [ "${matrix[$r,$c]}" -ne 1 ] && matrix[$r,$c]=1 && ((i++))
     done
 
@@ -107,15 +107,15 @@ function update_state() {
             # Update the next state of the cell
             # If the cell is alive
             if [ ${matrix[$i,$j]} -eq 1 ]; then
-                if [ $neighbour -lt 2 ]; then
+                if [ "$neighbour" -lt 2 ]; then
                     matrix[$i,$j]=0
-                elif [ $neighbour -gt 3 ]; then
+                elif [ "$neighbour" -gt 3 ]; then
                     matrix[$i,$j]=0
                 fi
 
             else
                 # If the cell is dead
-                if [ $neighbour -eq 3 ]; then
+                if [ "$neighbour" -eq 3 ]; then
                     matrix[$i,$j]=1
                 fi
             fi
