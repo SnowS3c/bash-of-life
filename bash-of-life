@@ -89,7 +89,7 @@ function update_state() {
     for ((i=1;i<=num_rows;i++)) do
         for ((j=1;j<=num_cols;j++)) do
 
-            neighbour=0
+            neighbours=0
             for ((x=$((i-1));x<=$((i+1));x++)) do
                 for ((y=$((j-1));y<=$((j+1));y++)) do
 
@@ -99,7 +99,7 @@ function update_state() {
                             # Skip the current cell
                             continue
                         fi
-                        ((neighbour++))
+                        ((neighbours++))
                     fi
                 done
             done
@@ -107,15 +107,15 @@ function update_state() {
             # Update the next state of the cell
             # If the cell is alive
             if [ ${matrix[$i,$j]} -eq 1 ]; then
-                if [ "$neighbour" -lt 2 ]; then
+                if [ "$neighbours" -lt 2 ]; then
                     matrix[$i,$j]=0
-                elif [ "$neighbour" -gt 3 ]; then
+                elif [ "$neighbours" -gt 3 ]; then
                     matrix[$i,$j]=0
                 fi
 
             else
                 # If the cell is dead
-                if [ "$neighbour" -eq 3 ]; then
+                if [ "$neighbours" -eq 3 ]; then
                     matrix[$i,$j]=1
                 fi
             fi
