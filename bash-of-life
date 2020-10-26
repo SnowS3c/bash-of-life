@@ -85,7 +85,7 @@ function update_state() {
     done
 
 
-    # Check the how many neighbours has each cell in the new matrix
+    # Check how many neighbours has each cell in the new matrix
     for ((i=1;i<=num_rows;i++)) do
         for ((j=1;j<=num_cols;j++)) do
 
